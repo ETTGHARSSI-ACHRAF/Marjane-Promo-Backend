@@ -2,7 +2,7 @@ const {getAdminCentreByEmail} =require('../models/pdgModel');
 const {createAdminCentre} = require('../models/adminCentreModel');
 const nodemailer = require('nodemailer');
 const {genSaltSync,hash,compare} =require('bcrypt');
-const {sign} =require('jsonwebtoken');
+const {sign,decode} =require('jsonwebtoken');
 
 module.exports = {
     // autontification de pdg
@@ -28,7 +28,8 @@ module.exports = {
                 return res.json({
                     success : 1,
                     message : 'login succesfully',
-                    token: jsontoken
+                    token: jsontoken,
+                    data: decode(jsontoken)
                 });
             }else{
                 return res.json({

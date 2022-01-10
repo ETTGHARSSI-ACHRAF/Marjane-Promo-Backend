@@ -37,4 +37,34 @@ module.exports = {
             }
         )
     },
+
+    // get all admin rayon
+    getAllAdminRayon : (centre,callBack) =>{
+        pool.query(
+            'SELECT * FROM admin_rayon,centre,categorie WHERE admin_rayon.fk_centre=centre.id_centre AND admin_rayon.fk_cat=categorie.id_cat And fk_centre=?',
+            [centre],
+            (error,results)=>{
+                if(error){
+                  return  callBack(error);
+                }
+                return callBack(null,results);
+            } 
+            
+            )
+    },
+
+    // delete admin rayon by id
+    deleteAdminRayon : (id,callBack) =>{
+        pool.query(
+            'DELETE FROM admin_rayon WHERE id_admin_rayon=?',
+            [id],
+            (error,results)=>{
+                if(error){
+                  return  callBack(error);
+                }
+                return callBack(null,results);
+            } 
+            
+            )
+    },
 }

@@ -22,12 +22,13 @@ module.exports = {
     // ajouter promo_prod
     addPromoProd :(data,callBack)=>{
         pool.query(
-            "INSERT INTO promo_prod(date_debut,date_fin,fk_prod,fk_promo,statu,commentaire) VALUES (?,?,?,?,'en cour','en cour')",
+            "INSERT INTO promo_prod(date_debut,date_fin,fk_prod,fk_promo,prix_promo,statu,commentaire) VALUES (?,?,?,?,?,'en cour','en cour')",
             [
                 data.date_debut,
                 data.date_fin,
                 data.fk_prod,
-                data.fk_promo
+                data.fk_promo,
+                data.prix_promo
             ],
             (error,results)=>{
                 if(error){

@@ -1,8 +1,7 @@
 const {getAdminCentreByEmail,getAllAdminCentre,deleteAdminCentre} = require('../models/adminCentreModel');
-const {createAdminRayon} = require('../models/adminRayonModel');
 const nodemailer = require('nodemailer');
 const {genSaltSync,hash,compare} =require('bcrypt');
-const {sign} =require('jsonwebtoken');
+const {sign, decode} =require('jsonwebtoken');
 
 module.exports = {
      // autontification de pdg
@@ -12,7 +11,7 @@ module.exports = {
             if (err) {
                 console.log(err);
             }
-            if (result.length == 0) {
+            if (result == null) {
                 return res.json({
                     success: 0,
                     date: 'invalide email or password1'
@@ -27,7 +26,8 @@ module.exports = {
                 return res.json({
                     success : 1,
                     message : 'login succesfully',
-                    token: jsontoken
+                    token: jsontoken,
+                    data: decode(jsontoken)
                 });
             }else{
                 return res.json({
