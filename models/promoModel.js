@@ -103,5 +103,144 @@ module.exports = {
                 
             }
         )
-    }
+    },
+    getStatistiquePromoEnCour : (callBack)=>{
+        pool.query(
+            'SELECT COUNT(id_promo_prod) as "en_cour" FROM `promo_prod` WHERE statu="en cour"',
+            // 'SELECT COUNT(statu='en cour') as 'en_cour', COUNT(statu='valider') as 'valider',COUNT(statu='non valider') as 'non_valider', COUNT(statu='non traiter') as 'non_traiter' FROM `promo_prod` WHERE statu='non traiter'',
+            [],
+            (error,results)=>{
+                if(error){
+                    // console.log(error);
+                   return callBack(error);
+                   
+                }
+                console.log(results);
+                return callBack(null,results[0]);
+                
+            }
+        )
+    },
+    getStatistiquePromoNonTraiter : (callBack)=>{
+        pool.query(
+            'SELECT COUNT(id_promo_prod) as "non_traiter" FROM `promo_prod` WHERE statu="non traiter"',
+            [],
+            (error,results)=>{
+                if(error){
+                    // console.log(error);
+                   return callBack(error);
+                   
+                }
+                console.log(results);
+                return callBack(null,results[0]);
+                
+            }
+        )
+    },
+    getStatistiquePromoValider : (callBack)=>{
+        pool.query(
+            'SELECT COUNT(id_promo_prod) as "valider" FROM `promo_prod` WHERE statu="valider"',
+           
+            [],
+            (error,results)=>{
+                if(error){
+                    // console.log(error);
+                   return callBack(error);
+                   
+                }
+                console.log(results);
+                return callBack(null,results[0]);
+                
+            }
+        )
+    },
+    getStatistiquePromoNonValider : (callBack)=>{
+        pool.query(
+            'SELECT COUNT(id_promo_prod) as "non_valider" FROM `promo_prod` WHERE statu=" non valider"',
+            [],
+            (error,results)=>{
+                if(error){
+                    // console.log(error);
+                   return callBack(error);
+                   
+                }
+                console.log(results);
+                return callBack(null,results[0]);
+                
+            }
+        )
+    },
+    getStatistiquePromoEnCourByCentre : (centre,callBack)=>{
+        pool.query(
+            'SELECT COUNT(id_promo_prod) as "en_cour" FROM promo_prod,promotion,admin_centre WHERE statu="en cour" AND promo_prod.fk_promo=promotion.id_promo AND promotion.fk_admin=admin_centre.id_admin AND admin_centre.fk_centre=?',
+            [
+                centre
+            ],
+            (error,results)=>{
+                if(error){
+                    // console.log(error);
+                   return callBack(error);
+                   
+                }
+                console.log(results);
+                return callBack(null,results[0]);
+                
+            }
+        )
+    },
+    getStatistiquePromoNonTraiterByCentre : (centre,callBack)=>{
+        pool.query(
+            'SELECT COUNT(id_promo_prod) as "non_traiter" FROM promo_prod,promotion,admin_centre WHERE statu="non traiter" AND promo_prod.fk_promo=promotion.id_promo AND promotion.fk_admin=admin_centre.id_admin AND admin_centre.fk_centre=?',
+            [
+                centre
+            ],
+            (error,results)=>{
+                if(error){
+                    // console.log(error);
+                   return callBack(error);
+                   
+                }
+                console.log(results);
+                return callBack(null,results[0]);
+                
+            }
+        )
+    },
+    getStatistiquePromoValiderByCentre : (centre,callBack)=>{
+        pool.query(
+            'SELECT COUNT(id_promo_prod) as "valider" FROM promo_prod,promotion,admin_centre WHERE statu="valider" AND promo_prod.fk_promo=promotion.id_promo AND promotion.fk_admin=admin_centre.id_admin AND admin_centre.fk_centre=?',
+           
+            [
+                centre
+            ],
+            (error,results)=>{
+                if(error){
+                    // console.log(error);
+                   return callBack(error);
+                   
+                }
+                console.log(results);
+                return callBack(null,results[0]);
+                
+            }
+        )
+    },
+    getStatistiquePromoNonValiderByCentre : (centre,callBack)=>{
+        pool.query(
+            'SELECT COUNT(id_promo_prod) as "non_valider" FROM promo_prod,promotion,admin_centre WHERE statu="non valider" AND promo_prod.fk_promo=promotion.id_promo AND promotion.fk_admin=admin_centre.id_admin AND admin_centre.fk_centre=?',
+            [
+                centre
+            ],
+            (error,results)=>{
+                if(error){
+                    // console.log(error);
+                   return callBack(error);
+                   
+                }
+                console.log(results);
+                return callBack(null,results[0]);
+                
+            }
+        )
+    },
 }

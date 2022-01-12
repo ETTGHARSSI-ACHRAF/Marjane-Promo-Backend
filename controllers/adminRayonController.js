@@ -13,7 +13,7 @@ module.exports = {
             if (err) {
                 console.log(err);
             }
-            if (result.length == 0) {
+            if (result == null) {
                 return res.json({
                     success: 0,
                     date: 'invalide email or password1'
@@ -60,13 +60,14 @@ module.exports = {
                 return res.json({
                     success : 1,
                     message : 'login succesfully',
-                    token: jsontoken
+                    token: jsontoken,
+                    data:dataAdmin 
                 });
                 
             }else{
                 return res.json({
                     success : 0,
-                    data : "invalid email or password"
+                    data : "invalid email or password3"
                 })
             }
         });
@@ -116,7 +117,6 @@ module.exports = {
             const psd=body.password_admin_rayon;
             
             body.password_admin_rayon = await hash(body.password_admin_rayon, saltRounds);
-            
             createAdminRayon(body,(err,result)=>{
                 if(err){
                     console.log(err);

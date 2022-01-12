@@ -1,4 +1,4 @@
-const {addPromo,addPromoProd,updatePromo,getPromosByAdminRayon,getAllPromosParCentre} = require('../models/promoModel');
+const {addPromo,addPromoProd,updatePromo,getPromosByAdminRayon,getAllPromosParCentre,getStatistiquePromoEnCour,getStatistiquePromoNonTraiter,getStatistiquePromoNonValider,getStatistiquePromoValider,getStatistiquePromoEnCourByCentre,getStatistiquePromoNonTraiterByCentre,getStatistiquePromoNonValiderByCentre,getStatistiquePromoValiderByCentre} = require('../models/promoModel');
 const {getProduitById} = require('../models/produitModel');
 const {decode} =require('jsonwebtoken');
 module.exports = {
@@ -78,8 +78,9 @@ module.exports = {
     },
     // afficher les promos de l'admin de rayon
     getPromosByAdminRayon : (req,res)=>{
-        const dataAdmin = decode(process.env.jsontoken)
-        getPromosByAdminRayon(dataAdmin.result.fk_cat,(err, result) => {
+        // const dataAdmin = decode(process.env.jsontoken)
+        const id=req.params.id
+        getPromosByAdminRayon(id,(err, result) => {
             if(err){
                 // console.log(err);
                 return res.status(500).json({
@@ -109,5 +110,99 @@ module.exports = {
                 data : result,
             });
         });   
+    },
+    // afficher les statistique global pour PDG
+    statistique : (req,res)=>{
+        getStatistiquePromoEnCour((err,result1)=>{
+            if(err){
+                console.log(err);
+                return res.status(500).json({
+                    success : 0,
+                    message : "database connection error"
+                });
+            }
+            getStatistiquePromoNonTraiter((err,result2)=>{
+                if(err){
+                    console.log(err);
+                    return res.status(500).json({
+                        success : 0,
+                        message : "database connection error"
+                    });
+                }
+                getStatistiquePromoNonValider((err,result3)=>{
+                    if(err){
+                        console.log(err);
+                        return res.status(500).json({
+                            success : 0,
+                            message : "database connection error"
+                        });
+                    }
+                    getStatistiquePromoValider((err,result4)=>{
+                        if(err){
+                            console.log(err);
+                            return res.status(500).json({
+                                success : 0,
+                                message : "database connection error"
+                            });
+                        }
+                        return res.status(200).json({
+                            success : 1,
+                            data:'jjjj',
+                            en_cour:result1,
+                            non_traiter:result2,
+                            non_valider:result3,
+                            valider:result4
+                        });
+                    })
+                })
+            })
+        })
+    },
+    // afficher les statistique par centre pour admin de centre
+    statistiqueDeCentre : (req,res)=>{
+        const id=req.params.id;
+        getStatistiquePromoEnCourByCentre(id,(err,result1)=>{
+            if(err){
+                console.log(err);
+                return res.status(500).json({
+                    success : 0,
+                    message : "database connection error"
+                });
+            }
+            getStatistiquePromoNonTraiterByCentre(id,(err,result2)=>{
+                if(err){
+                    console.log(err);
+                    return res.status(500).json({
+                        success : 0,
+                        message : "database connection error"
+                    });
+                }
+                getStatistiquePromoNonValiderByCentre(id,(err,result3)=>{
+                    if(err){
+                        console.log(err);
+                        return res.status(500).json({
+                            success : 0,
+                            message : "database connection error"
+                        });
+                    }
+                    getStatistiquePromoValiderByCentre(id,(err,result4)=>{
+                        if(err){
+                            console.log(err);
+                            return res.status(500).json({
+                                success : 0,
+                                message : "database connection error"
+                            });
+                        }
+                        return res.status(200).json({
+                            success : 1,
+                            en_cour:result1,
+                            non_traiter:result2,
+                            non_valider:result3,
+                            valider:result4
+                        });
+                    })
+                })
+            })
+        })
     }
 }
